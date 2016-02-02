@@ -46,8 +46,11 @@ class ViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("weatherCell")! as! WeatherCell
+        print("there should be fetched results and results num is \(fetchedResultsController.fetchedObjects?.count)")
+//        let cell = tableView.dequeueReusableCellWithIdentifier("weatherCell")! as! WeatherCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("weatherCell", forIndexPath: indexPath) as! WeatherCell
         let forecast = fetchedResultsController.objectAtIndexPath(indexPath) as! Forecast
+        print("row is \(indexPath.row) and forecast date is \(forecast.date)")
         cell.weather.text = forecast.weather
         cell.temp.text = forecast.tempDescription
         cell.date.text = forecast.date

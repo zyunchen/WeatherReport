@@ -79,25 +79,6 @@ class CityCurrentWeather: UIViewController,CLLocationManagerDelegate {
     }
     
     func getSavedLocation(){
-        let fetchRequest = NSFetchRequest()
-        let entityDescription = NSEntityDescription.entityForName("CurrentWeather", inManagedObjectContext: sharedContext)
-        fetchRequest.entity = entityDescription
-        do{
-            let results = try sharedContext.executeFetchRequest(fetchRequest)
-            
-            let currentWeathers = results as! [CurrentWeather]
-            if currentWeathers.count > 0 {
-                for currentWeather in currentWeathers {
-                    self.sharedContext.performBlock({ () -> Void in
-                        self.sharedContext.deleteObject(currentWeather as! CurrentWeather)
-                    })
-                }
-                CoreDataStack.sharedInstance().saveContext()
-            }
-        } catch {
-            
-        }
-        
         let defaults = NSUserDefaults.standardUserDefaults()
         let latitude = defaults.doubleForKey("latitude")
         let longitude = defaults.doubleForKey("longitude")
@@ -119,6 +100,24 @@ class CityCurrentWeather: UIViewController,CLLocationManagerDelegate {
             }
             
             if let data = data as? NSDictionary {
+                self.sharedContext.performBlock({ () -> Void in
+                    let fetchRequest = NSFetchRequest()
+                    let entityDescription = NSEntityDescription.entityForName("CurrentWeather", inManagedObjectContext: self.sharedContext)
+                    fetchRequest.entity = entityDescription
+                    do{
+                        let results = try self.sharedContext.executeFetchRequest(fetchRequest)
+                        
+                        let currentWeathers = results as! [CurrentWeather]
+                        if currentWeathers.count > 0 {
+                            for currentWeather in currentWeathers {
+                                self.sharedContext.deleteObject(currentWeather as! CurrentWeather)
+                            }
+                            CoreDataStack.sharedInstance().saveContext()
+                        }
+                    } catch {
+                        
+                    }
+                })
                 
                 let entity = NSEntityDescription.entityForName("CurrentWeather", inManagedObjectContext: self.sharedContext)
                 let currentWeather = CurrentWeather(entity:entity!,insertIntoManagedObjectContext: self.sharedContext)
