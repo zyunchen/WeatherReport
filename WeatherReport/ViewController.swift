@@ -78,6 +78,8 @@ class ViewController: UITableViewController {
                     print("there is some error and error is \(errorString)")
                 }
                 
+                print("current weather is \(self.currentWeather)")
+                
                 if let data = data as? NSDictionary {
                     self.sharedContext.performBlock({ () -> Void in
                         

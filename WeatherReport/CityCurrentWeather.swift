@@ -60,16 +60,15 @@ class CityCurrentWeather: UIViewController,CLLocationManagerDelegate {
         let fetchRequest = NSFetchRequest()
         let entityDescription = NSEntityDescription.entityForName("CurrentWeather", inManagedObjectContext: sharedContext)
         fetchRequest.entity = entityDescription
-        let currentWeather:CurrentWeather
         do{
             let results = try sharedContext.executeFetchRequest(fetchRequest)
 
             let currentWeathers = results as! [CurrentWeather]
             if currentWeathers.count > 0 {
                 currentWeather = currentWeathers[0]
-                self.locationLabel.text = currentWeather.cityName
-                self.weatherLabel.text = currentWeather.weather
-                self.tempLabel.text = String(currentWeather.temp)
+                self.locationLabel.text = currentWeather!.cityName
+                self.weatherLabel.text = currentWeather!.weather
+                self.tempLabel.text = String(currentWeather!.temp)
 
             }
         } catch {
