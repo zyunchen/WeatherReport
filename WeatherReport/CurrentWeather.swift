@@ -12,7 +12,7 @@ import CoreData
 class CurrentWeather:NSManagedObject {
     @NSManaged var cityName:String
     @NSManaged var countryName:String
-    @NSManaged var temp:NSNumber
+    @NSManaged var temp:String
     @NSManaged var weather:String
     @NSManaged var forecasts:[Forecast]
 }

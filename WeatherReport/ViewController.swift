@@ -10,19 +10,20 @@ import UIKit
 import CoreLocation
 import CoreData
 
-class ViewController: UITableViewController {
+class ViewController: UITableViewController,NSFetchedResultsControllerDelegate {
     
     var weatherService = OpenWeatherMapService()
     var currentWeather:CurrentWeather?
     var currentLocation:CLLocation?
+    
     var sharedContext: NSManagedObjectContext{
         return CoreDataStack.sharedInstance().managedObjectContext
     }
     
     lazy var fetchedResultsController:NSFetchedResultsController = {
         var fetchRequest = NSFetchRequest(entityName: "Forecast")
-//        let predicate = NSPredicate(format: "currentWeather == %@", self.currentWeather!)
-//        fetchRequest.predicate = predicate
+        let predicate = NSPredicate(format: "currentWeather == %@", self.currentWeather!)
+        fetchRequest.predicate = predicate
         fetchRequest.sortDescriptors = [NSSortDescriptor(key:"date",ascending: true)]
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.sharedContext, sectionNameKeyPath: nil, cacheName: nil)
         print("fetched results have been init")
@@ -32,11 +33,18 @@ class ViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("view did load done")
         getForecast()
         do {
             try fetchedResultsController.performFetch()
         }catch let error as NSError{
             print("error: \(error)")
+        }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        if fetchedResultsController.delegate == nil {
+            fetchedResultsController.delegate = self
         }
     }
 
@@ -47,10 +55,8 @@ class ViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         print("there should be fetched results and results num is \(fetchedResultsController.fetchedObjects?.count)")
-//        let cell = tableView.dequeueReusableCellWithIdentifier("weatherCell")! as! WeatherCell
-        let cell = tableView.dequeueReusableCellWithIdentifier("weatherCell", forIndexPath: indexPath) as! WeatherCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("weatherCell")! as! WeatherCell
         let forecast = fetchedResultsController.objectAtIndexPath(indexPath) as! Forecast
-        print("row is \(indexPath.row) and forecast date is \(forecast.date)")
         cell.weather.text = forecast.weather
         cell.temp.text = forecast.tempDescription
         cell.date.text = forecast.date
@@ -71,6 +77,7 @@ class ViewController: UITableViewController {
     }
     
     func getForecast(){
+        print("get Forecast func done")
         if let currentLocation = currentLocation {
             weatherService.getWeatherInfoWithLocation(OpenWeatherMapService.Method.forcast,location: currentLocation) { (data, errorString) -> Void in
                 
@@ -78,7 +85,7 @@ class ViewController: UITableViewController {
                     print("there is some error and error is \(errorString)")
                 }
                 
-                print("current weather is \(self.currentWeather)")
+//                print("current weather is \(self.currentWeather)")
                 
                 if let data = data as? NSDictionary {
                     self.sharedContext.performBlock({ () -> Void in
@@ -93,6 +100,8 @@ class ViewController: UITableViewController {
                         
                         let lists = data["list"] as? [NSDictionary]
                         let forecastEntity = NSEntityDescription.entityForName("Forecast", inManagedObjectContext:self.sharedContext)
+                        
+                        print("how mangy forecats here and the num is \(lists?.count)")
                         for weather in lists! {
                             
                             let forecast = Forecast(entity: forecastEntity!,insertIntoManagedObjectContext: self.sharedContext)
@@ -119,6 +128,32 @@ class ViewController: UITableViewController {
             
         }
     }
+    
+    
+    //MARK: - NSFetchedResultsController Delegate Methods
+    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        self.tableView.beginUpdates()
+    }
+    
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        self.tableView.endUpdates()
+        
+    }
+    
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+        switch type {
+        case .Insert:
+            self.tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: UITableViewRowAnimation.None)
+        case .Delete:
+            self.tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: UITableViewRowAnimation.None)
+        case .Update:
+            self.tableView.reloadRowsAtIndexPaths([indexPath!], withRowAnimation: UITableViewRowAnimation.None)
+        default:
+            return
+        }
+    }
+    
+
     
 
 

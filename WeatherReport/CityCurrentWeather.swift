@@ -132,13 +132,8 @@ class CityCurrentWeather: UIViewController,CLLocationManagerDelegate {
                     
                     let temp = main["temp"] as! Double
                     
-                    NSLog("temp is \(temp)")
                     
-                    currentWeather.temp = 1.0
-
-                    
-                    
-                    currentWeather.temp = Utils.getFahrenheit(temp)
+                    currentWeather.temp = String(Utils.getFahrenheit(temp)) + "°C"
                 }
                 self.sharedContext.performBlock({ () -> Void in
                     CoreDataStack.sharedInstance().saveContext()
@@ -149,7 +144,7 @@ class CityCurrentWeather: UIViewController,CLLocationManagerDelegate {
                 dispatch_async(dispatch_get_main_queue()){
                     self.locationLabel.text = currentWeather.cityName
                     self.weatherLabel.text = currentWeather.weather
-                    self.tempLabel.text = String(currentWeather.temp)
+                    self.tempLabel.text = currentWeather.temp
 
                 }
             }
@@ -157,21 +152,13 @@ class CityCurrentWeather: UIViewController,CLLocationManagerDelegate {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showForecast" {
             let forecastController = segue.destinationViewController as! ViewController
             forecastController.currentWeather = currentWeather
             forecastController.currentLocation = currentLocation
+            locationManager.stopUpdatingLocation()
             
         }
     }
