@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Aiw-3P-jfa">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Aiw-3P-jfa">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -27,7 +27,7 @@
                                 <rect key="frame" x="0.0" y="92" width="600" height="116"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tHm-zT-L3h" id="ouN-35-MUy">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="115.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="116"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5JK-vL-KU4">
@@ -92,50 +92,72 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fTb-kk-N8i">
-                                <rect key="frame" x="250" y="192" width="101" height="55"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fTb-kk-N8i">
+                                <rect key="frame" x="301" y="192" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="40"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDq-IV-lQ8">
-                                <rect key="frame" x="250" y="273" width="101" height="55"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dDq-IV-lQ8">
+                                <rect key="frame" x="301" y="273" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="40"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kOz-ti-dLF">
-                                <rect key="frame" x="202" y="503" width="196" height="53"/>
+                                <rect key="frame" x="94" y="503" width="412" height="53"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="30"/>
-                                <state key="normal" title="check forecast"/>
+                                <state key="normal" title="check forecast  for next 7 days"/>
                                 <connections>
-                                    <segue destination="bak-Yg-vh8" kind="show" identifier="showForecast" id="uBA-t7-km1"/>
+                                    <action selector="didTouchCheckForecast:" destination="s5N-ZB-pbX" eventType="touchUpInside" id="F0i-c1-mp8"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3JD-IA-AMV">
-                                <rect key="frame" x="251" y="367" width="98" height="58"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3JD-IA-AMV">
+                                <rect key="frame" x="300" y="367" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" name="WeatherIcons-Regular" family="Weather Icons" pointSize="40"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="7" minimumValue="1" maximumValue="16" translatesAutoresizingMaskIntoConstraints="NO" id="Rz8-09-f5t">
+                                <rect key="frame" x="253" y="434" width="94" height="29"/>
+                                <connections>
+                                    <action selector="stepperValueChanged:" destination="s5N-ZB-pbX" eventType="valueChanged" id="AQ6-8a-vh0"/>
+                                </connections>
+                            </stepper>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="dDq-IV-lQ8" firstAttribute="centerY" secondItem="iHu-Mb-7v3" secondAttribute="centerY" id="09x-bH-lW2"/>
                             <constraint firstItem="kOz-ti-dLF" firstAttribute="centerX" secondItem="iHu-Mb-7v3" secondAttribute="centerX" id="3Nk-tr-NGI"/>
+                            <constraint firstItem="kOz-ti-dLF" firstAttribute="leading" secondItem="iHu-Mb-7v3" secondAttribute="leadingMargin" constant="74" id="3qn-qc-MYO"/>
                             <constraint firstItem="dDq-IV-lQ8" firstAttribute="centerX" secondItem="iHu-Mb-7v3" secondAttribute="centerX" id="3rU-AC-5Yc"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="kOz-ti-dLF" secondAttribute="trailing" constant="74" id="5qn-qX-EcJ"/>
                             <constraint firstItem="6xB-Xo-28E" firstAttribute="top" secondItem="kOz-ti-dLF" secondAttribute="bottom" constant="44" id="D9T-vf-Kro"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="kOz-ti-dLF" secondAttribute="trailing" constant="74" id="K2l-4b-rKz"/>
                             <constraint firstItem="dDq-IV-lQ8" firstAttribute="top" secondItem="fTb-kk-N8i" secondAttribute="bottom" constant="26" id="c56-wD-H7Z"/>
+                            <constraint firstItem="kOz-ti-dLF" firstAttribute="top" secondItem="Rz8-09-f5t" secondAttribute="bottom" constant="40" id="f4J-gp-LL0"/>
                             <constraint firstItem="fTb-kk-N8i" firstAttribute="centerX" secondItem="iHu-Mb-7v3" secondAttribute="centerX" id="glN-RL-eoP"/>
                             <constraint firstItem="3JD-IA-AMV" firstAttribute="centerX" secondItem="iHu-Mb-7v3" secondAttribute="centerX" id="kJ1-3W-2MW"/>
                             <constraint firstItem="3JD-IA-AMV" firstAttribute="top" secondItem="dDq-IV-lQ8" secondAttribute="bottom" constant="39" id="riL-mI-sSN"/>
+                            <constraint firstItem="kOz-ti-dLF" firstAttribute="leading" secondItem="iHu-Mb-7v3" secondAttribute="leadingMargin" constant="74" id="twB-KB-qVU"/>
+                            <constraint firstItem="Rz8-09-f5t" firstAttribute="centerX" secondItem="iHu-Mb-7v3" secondAttribute="centerX" id="yEE-cz-JHu"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="3Nk-tr-NGI"/>
+                                <exclude reference="5qn-qX-EcJ"/>
+                                <exclude reference="twB-KB-qVU"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="CurrentWeather" id="UpC-3a-Qf5"/>
                     <connections>
+                        <outlet property="checkForcastButton" destination="kOz-ti-dLF" id="tPw-14-5zQ"/>
+                        <outlet property="daysStepper" destination="Rz8-09-f5t" id="U0d-P3-enb"/>
                         <outlet property="locationLabel" destination="dDq-IV-lQ8" id="oQ0-FZ-bhB"/>
                         <outlet property="tempLabel" destination="fTb-kk-N8i" id="TAI-ty-0he"/>
                         <outlet property="weatherLabel" destination="3JD-IA-AMV" id="IG5-cT-n4M"/>
+                        <segue destination="bak-Yg-vh8" kind="show" identifier="showForecast" id="l60-oV-caP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ogK-Ba-cTx" userLabel="First Responder" sceneMemberID="firstResponder"/>

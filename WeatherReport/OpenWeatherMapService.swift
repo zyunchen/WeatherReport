@@ -21,9 +21,9 @@ struct OpenWeatherMapService {
         static let forcast = "/forecast/daily"
     }
     
-    func getWeatherInfoWithLocation(method:String,location:CLLocation,completionHandler:WeatherCompletionHandler){
+    func getWeatherInfoWithLocation(method:String,location:CLLocation,days:Int,completionHandler:WeatherCompletionHandler){
         
-        guard let url = generateRequestURL(location, method:method) else{
+        guard let url = generateRequestURL(location, method:method,days:days) else{
             completionHandler(nil,"There is something wrong when get current weather")
             return
         }
@@ -69,14 +69,21 @@ struct OpenWeatherMapService {
         }
     }
     
-    private func generateRequestURL(location: CLLocation,method:String) -> NSURL? {
+    private func generateRequestURL(location: CLLocation,method:String,days:Int) -> NSURL? {
         guard let components = NSURLComponents(string:baseURL + method) else {
             return nil
         }
-        
-        components.queryItems = [NSURLQueryItem(name:"lat", value:String(location.coordinate.latitude)),
-            NSURLQueryItem(name:"lon", value:String(location.coordinate.longitude)),
-            NSURLQueryItem(name:"appid", value:String(appId))]
+        if method == Method.current {
+            components.queryItems = [NSURLQueryItem(name:"lat", value:String(location.coordinate.latitude)),
+                NSURLQueryItem(name:"lon", value:String(location.coordinate.longitude)),
+                NSURLQueryItem(name:"appid", value:String(appId))]
+        }
+            else{
+                components.queryItems = [NSURLQueryItem(name:"lat", value:String(location.coordinate.latitude)),
+                    NSURLQueryItem(name:"lon", value:String(location.coordinate.longitude)),
+                    NSURLQueryItem(name:"appid", value:String(appId)),
+                    NSURLQueryItem(name:"cnt",value: String(days))]
+            }
         
         return components.URL
     }

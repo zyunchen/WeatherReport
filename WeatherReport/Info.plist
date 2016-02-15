@@ -10,7 +10,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>value1</string>
+	<string>You should allow,or you will not use this app smoothly</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>value2</string>
 	<key>CFBundleExecutable</key>

@@ -16,6 +16,8 @@ class ViewController: UITableViewController,NSFetchedResultsControllerDelegate {
     var currentWeather:CurrentWeather?
     var currentLocation:CLLocation?
     
+    var days:Int?
+    
     var sharedContext: NSManagedObjectContext{
         return CoreDataStack.sharedInstance().managedObjectContext
     }
@@ -77,9 +79,11 @@ class ViewController: UITableViewController,NSFetchedResultsControllerDelegate {
     }
     
     func getForecast(){
-        print("get Forecast func done")
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         if let currentLocation = currentLocation {
-            weatherService.getWeatherInfoWithLocation(OpenWeatherMapService.Method.forcast,location: currentLocation) { (data, errorString) -> Void in
+            weatherService.getWeatherInfoWithLocation(OpenWeatherMapService.Method.forcast,location: currentLocation,days: days!) { (data, errorString) -> Void in
+                
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 
                 if let errorString = errorString {
                     print("there is some error and error is \(errorString)")

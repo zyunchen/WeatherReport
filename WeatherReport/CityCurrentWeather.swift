@@ -21,14 +21,24 @@ class CityCurrentWeather: UIViewController,CLLocationManagerDelegate {
     var currentWeather:CurrentWeather?
     var currentLocation:CLLocation?
     
+    @IBOutlet weak var daysStepper: UIStepper!
     @IBOutlet weak var tempLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var weatherLabel: UILabel!
+    @IBOutlet weak var checkForcastButton: UIButton!
 
+    @IBAction func stepperValueChanged(sender: UIStepper) {
+        print("it runs stepper value changed  and valued is \(sender.value)")
+        let stepValue = Int(sender.value)
+        checkForcastButton.setTitle("check forecast for next \(stepValue) days", forState: UIControlState.Normal)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initView()
         getSavedLocation()
+        
+        checkForcastButton.titleLabel?.numberOfLines = 0
         
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -92,7 +102,8 @@ class CityCurrentWeather: UIViewController,CLLocationManagerDelegate {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setDouble((currentLocation?.coordinate.latitude)!, forKey: "latitude")
         defaults.setDouble((currentLocation?.coordinate.longitude)!, forKey: "longitude")
-        weatherService.getWeatherInfoWithLocation(OpenWeatherMapService.Method.current,location: currentLocation!) { (data, errorString) -> Void in
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        weatherService.getWeatherInfoWithLocation(OpenWeatherMapService.Method.current,location: currentLocation!,days: 0) { (data, errorString) -> Void in
             
             if let errorString = errorString {
                 print("there is some error and error is \(errorString)")
@@ -109,42 +120,44 @@ class CityCurrentWeather: UIViewController,CLLocationManagerDelegate {
                         let currentWeathers = results as! [CurrentWeather]
                         if currentWeathers.count > 0 {
                             for currentWeather in currentWeathers {
-                                self.sharedContext.deleteObject(currentWeather as! CurrentWeather)
+                                self.sharedContext.deleteObject(currentWeather)
                             }
                             CoreDataStack.sharedInstance().saveContext()
                         }
                     } catch {
                         
                     }
+                    let entity = NSEntityDescription.entityForName("CurrentWeather", inManagedObjectContext: self.sharedContext)
+                    let currentWeather = CurrentWeather(entity:entity!,insertIntoManagedObjectContext: self.sharedContext)
+                    
+                    currentWeather.cityName = data["name"] as! String
+                    if let weather = data["weather"] as? [NSDictionary] {
+                        let weatherCondition = weather[0]["id"] as! Int
+                        let weatherIcon = weather[0]["icon"] as! String
+                        
+                        currentWeather.weather = WeatherIcon(condition: weatherCondition, iconString: weatherIcon).iconText
+                    }
+                    if let main = data["main"] as? NSDictionary {
+                        
+                        let temp = main["temp"] as! Double
+                        
+                        
+                        currentWeather.temp = String(Utils.getFahrenheit(temp)) + "°C"
+                    }
+                    self.sharedContext.performBlock({ () -> Void in
+                        CoreDataStack.sharedInstance().saveContext()
+                    })
+                    
+                    self.currentWeather = currentWeather
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 })
                 
-                let entity = NSEntityDescription.entityForName("CurrentWeather", inManagedObjectContext: self.sharedContext)
-                let currentWeather = CurrentWeather(entity:entity!,insertIntoManagedObjectContext: self.sharedContext)
-                
-                currentWeather.cityName = data["name"] as! String
-                if let weather = data["weather"] as? [NSDictionary] {
-                    let weatherCondition = weather[0]["id"] as! Int
-                    let weatherIcon = weather[0]["icon"] as! String
-                    
-                    currentWeather.weather = WeatherIcon(condition: weatherCondition, iconString: weatherIcon).iconText
-                }
-                if let main = data["main"] as? NSDictionary {
-                    
-                    let temp = main["temp"] as! Double
-                    
-                    
-                    currentWeather.temp = String(Utils.getFahrenheit(temp)) + "°C"
-                }
-                self.sharedContext.performBlock({ () -> Void in
-                    CoreDataStack.sharedInstance().saveContext()
-                })
-                
-                self.currentWeather = currentWeather
+
                 
                 dispatch_async(dispatch_get_main_queue()){
-                    self.locationLabel.text = currentWeather.cityName
-                    self.weatherLabel.text = currentWeather.weather
-                    self.tempLabel.text = currentWeather.temp
+                    self.locationLabel.text = self.currentWeather!.cityName
+                    self.weatherLabel.text = self.currentWeather!.weather
+                    self.tempLabel.text = self.currentWeather!.temp
 
                 }
             }
@@ -153,13 +166,37 @@ class CityCurrentWeather: UIViewController,CLLocationManagerDelegate {
     
 
     
+    @IBAction func didTouchCheckForecast(sender: UIButton) {
+        if let _ = currentWeather{
+            performSegueWithIdentifier("showForecast", sender: sender)
+        }else{
+            showAlert("wait for a current weather", message: "should get a current weather first ,check have you allowed to aceess your location and is there a good network condication?")
+        }
+    }
+    
+    
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showForecast" {
             let forecastController = segue.destinationViewController as! ViewController
             forecastController.currentWeather = currentWeather
             forecastController.currentLocation = currentLocation
+            forecastController.days = Int(daysStepper.value)
             locationManager.stopUpdatingLocation()
             
+        }
+    }
+    
+    //MARK: - Helper Methods
+    
+    func showAlert(title: String? , message: String?) {
+        dispatch_async(dispatch_get_main_queue()){
+            if title != nil && message != nil {
+                let errorAlert =
+                UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                errorAlert.addAction(UIAlertAction(title: "ok", style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(errorAlert, animated: true, completion: nil)
+            }
         }
     }
 
