@@ -106,7 +106,7 @@ class CityCurrentWeather: UIViewController,CLLocationManagerDelegate {
         weatherService.getWeatherInfoWithLocation(OpenWeatherMapService.Method.current,location: currentLocation!,days: 0) { (data, errorString) -> Void in
             
             if let errorString = errorString {
-                print("there is some error and error is \(errorString)")
+                self.showAlert("notic", message: errorString)
             }
             
             if let data = data as? NSDictionary {
@@ -178,7 +178,7 @@ class CityCurrentWeather: UIViewController,CLLocationManagerDelegate {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showForecast" {
-            let forecastController = segue.destinationViewController as! ViewController
+            let forecastController = segue.destinationViewController as! ForecastViewController
             forecastController.currentWeather = currentWeather
             forecastController.currentLocation = currentLocation
             forecastController.days = Int(daysStepper.value)

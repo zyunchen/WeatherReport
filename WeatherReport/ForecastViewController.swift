@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import CoreData
 
-class ViewController: UITableViewController,NSFetchedResultsControllerDelegate {
+class ForecastViewController: UITableViewController,NSFetchedResultsControllerDelegate {
     
     var weatherService = OpenWeatherMapService()
     var currentWeather:CurrentWeather?
@@ -86,7 +86,7 @@ class ViewController: UITableViewController,NSFetchedResultsControllerDelegate {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 
                 if let errorString = errorString {
-                    print("there is some error and error is \(errorString)")
+                    self.showAlert("notic", message: errorString)
                 }
                 
 //                print("current weather is \(self.currentWeather)")
@@ -157,6 +157,18 @@ class ViewController: UITableViewController,NSFetchedResultsControllerDelegate {
         }
     }
     
+    //MARK: - Helper Methods
+    
+    func showAlert(title: String? , message: String?) {
+        dispatch_async(dispatch_get_main_queue()){
+            if title != nil && message != nil {
+                let errorAlert =
+                UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                errorAlert.addAction(UIAlertAction(title: "ok", style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(errorAlert, animated: true, completion: nil)
+            }
+        }
+    }
 
     
 

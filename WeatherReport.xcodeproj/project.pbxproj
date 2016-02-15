@@ -15,7 +15,7 @@
 		128E58701C551B50005DD482 /* WeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128E586F1C551B50005DD482 /* WeatherCell.swift */; };
 		128E58731C552194005DD482 /* OpenWeatherMapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128E58721C552194005DD482 /* OpenWeatherMapService.swift */; };
 		12B3530F1C53FEA90006E266 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B3530E1C53FEA90006E266 /* AppDelegate.swift */; };
-		12B353111C53FEA90006E266 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B353101C53FEA90006E266 /* ViewController.swift */; };
+		12B353111C53FEA90006E266 /* ForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B353101C53FEA90006E266 /* ForecastViewController.swift */; };
 		12B353141C53FEA90006E266 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 12B353121C53FEA90006E266 /* Main.storyboard */; };
 		12B353171C53FEA90006E266 /* WeatherReport.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 12B353151C53FEA90006E266 /* WeatherReport.xcdatamodeld */; };
 		12B353191C53FEA90006E266 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12B353181C53FEA90006E266 /* Assets.xcassets */; };
@@ -53,7 +53,7 @@
 		128E58721C552194005DD482 /* OpenWeatherMapService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenWeatherMapService.swift; sourceTree = "<group>"; };
 		12B3530B1C53FEA90006E266 /* WeatherReport.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherReport.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		12B3530E1C53FEA90006E266 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		12B353101C53FEA90006E266 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		12B353101C53FEA90006E266 /* ForecastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastViewController.swift; sourceTree = "<group>"; };
 		12B353131C53FEA90006E266 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		12B353161C53FEA90006E266 /* WeatherReport.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WeatherReport.xcdatamodel; sourceTree = "<group>"; };
 		12B353181C53FEA90006E266 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 		128E586E1C551B24005DD482 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				12B353101C53FEA90006E266 /* ViewController.swift */,
+				12B353101C53FEA90006E266 /* ForecastViewController.swift */,
 				128E586F1C551B50005DD482 /* WeatherCell.swift */,
 				12F567671C590726002325E8 /* CityCurrentWeather.swift */,
 			);
@@ -320,7 +320,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				128E58701C551B50005DD482 /* WeatherCell.swift in Sources */,
-				12B353111C53FEA90006E266 /* ViewController.swift in Sources */,
+				12B353111C53FEA90006E266 /* ForecastViewController.swift in Sources */,
 				1237EF351C5A70EE001FE97E /* Utils.swift in Sources */,
 				12B353171C53FEA90006E266 /* WeatherReport.xcdatamodeld in Sources */,
 				1241D25F1C5D3EBD008DB147 /* Forecast.swift in Sources */,

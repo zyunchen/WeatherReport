@@ -38,6 +38,7 @@ struct OpenWeatherMapService {
         let task = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
             if let error = error{
                 print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
             }
             if let data = data {
                 self.parseResult(data,completionHanlder: completionHandler)
